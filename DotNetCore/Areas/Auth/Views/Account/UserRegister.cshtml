@@ -1,0 +1,189 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "UserRegister";
+    Layout = "~/Views/Shared/_Init_Layout.cshtml";
+}
+<section class="bg-login">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <div class="wrapper-page">
+                    <div class="account-pages">
+                        <div class="account-box">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <div class="card-title text-center">
+                                        <img src="~/logo/Ploice 01.png" alt="" style="width:80px;height:80px" class="img-fluid">
+                                        <h5 class="mt-3"><b>BP Portfolio Registration</b></h5>
+                                    </div>
+                                    <form class="form mt-5 contact-form" asp-area="Auth" asp-controller="Account" asp-action="UserRegister" method="post">
+                                        <div class="form-group ">
+                                            <div class="col-sm-12">
+                                                <input class="form-control form-control-line" type="text" id="bpNo" autocomplete="off" onkeyup="getPIMSData()" onchange="getPIMSData()" data-parsley-length="[10,10]" name="Name" placeholder="BP No (User Name)" required>
+                                                <span style="color:red">@Model.errorMsg</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="col-sm-12">
+                                                <input class="form-control form-control-line" id="fullName" type="text" placeholder="Full Name" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="col-sm-12">
+                                                <input class="form-control form-control-line" type="email" id="Email1" placeholder="Email" parsley-type="email" readonly required>
+                                                <input type="hidden" id="Email" name="Email" parsley-type="email" readonly required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <div class="col-sm-12">
+                                                <input class="form-control form-control-line" type="text" id="PhoneNumber1" placeholder="Mobile" readonly required data-parsley-length="[11,11]">
+                                                <input type="hidden" name="PhoneNumber" id="PhoneNumber" required data-parsley-length="[11,11]">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <div class="col-sm-12">
+                                                <input class="form-control form-control-line" autocomplete="off" id="password" name="Password" type="password" placeholder="Password">
+                                                <ul style="list-style:none" id="pass">
+                                                    <li class="text-danger">Password must be 6 character.</li>
+                                                    <li class="text-danger">Password must be contain 1 numeric character. </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <div class="col-sm-12">
+                                                <input class="form-control form-control-line" type="password" minlength="6" name="ConfirmPassword" placeholder="Confirm Password" required data-parsley-equalto="#password">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-12">
+                                                <label class="cr-styled">
+                                                    <input type="checkbox" checked>
+                                                    <i class="fa"></i>
+                                                    I accept <a href="">Terms and Conditions</a>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12 mt-4">
+                                                <button class="btn btn-primary btn-block" id="signUp" type="submit">Sign Up</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12 mt-4 text-center">
+                                                <span>Already have an account ? <a href="/Auth/Account/UserLogin">Login</a></span>
+
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+@section Scripts{
+    <script src="~/plugins/sweet-alert/sweetalert2.min.js"></script>
+    <script src="~/pages/jquery.sweet-alert.init.js"></script>
+    <link href="~/plugins/sweet-alert/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+
+        $('#password').keyup(function () {
+            var data = this.value;
+            if (data.length >= 6) {
+                $('#pass').hide();
+            } else {
+                $('#pass').show();
+            }
+        })
+
+
+        function getPIMSData() {
+            var bpNo = $('#bpNo').val().trim();
+
+            if (bpNo.length == 10) {
+                Common.Ajax('GET', 'https://pims.police.gov.bd:8443/pimslive/webpims/opus/bpdetails/BP' + bpNo, [], 'json', pimsdata, false);
+            } else {
+                $('#fullName').val('');
+                $('#Email').val('');
+                $('#PhoneNumber').val('');
+                $('#Email1').val('');
+                $('#PhoneNumber1').val('');
+            }
+        }
+        var rank = ['আইজিপি', 'এডিশনাল আইজি', 'অ্যাডিশনাল আইজি', 'ডিআইজি', 'এডিশনাল ডিআইজি', 'অ্যাডিশনাল ডিআইজি', 'এসপি', 'এডিশনাল এসপি', 'এএসপি', 'অ্যাডিশনাল এসপি']
+        var joiningRank = ['এএসপি']
+        function pimsdata(res) {
+            if (res.items[0] == null) {
+                console.log(res.items[0])
+                return false;
+            }
+            var mobNum = "";
+            var first3 = "";
+            var last3 = "";
+            var mask = "";
+            var email = "";
+            var n = "";
+            var firstPart = "";
+            var firstPartEmail = "";
+            var lastPart = "";
+            var maskEmail = "";
+            if (res.items[0].phone != null) {
+                mobNum = res.items[0].phone;
+                first3 = mobNum.substring(0, 3);
+                last3 = mobNum.substring(mobNum.length - 3);
+                mask = mobNum.substring(3, mobNum.length - 3).replace(/\d/g, "*");
+            }           
+            if (res.items[0].email != null) {
+                email = res.items[0].email;
+                n = email.indexOf("@@");
+                firstPart = email.substring(0, n);
+                firstPartEmail = firstPart.substring(n - 3, n);
+                lastPart = email.substring(n);
+                maskEmail = firstPart.substring(0, firstPart.length - 3).replace(/[a-z]/g, '*');
+            }
+            
+            $('#fullName').val(res.items[0].english_name);
+            $('#PhoneNumber1').val(first3 + mask + last3);
+            $('#Email1').val(maskEmail + firstPartEmail + lastPart);
+            $('#Email').val(res.items[0].email);
+            $('#PhoneNumber').val(res.items[0].phone);
+            if (jQuery.inArray(res.items[0].present_rank, rank) !== -1 || jQuery.inArray(res.items[0].police_joining_rank, joiningRank) !== -1) {
+                document.getElementById("signUp").disabled = false;
+            }
+            else {
+                swal({
+                    title: 'Not Selected', text: `You are not selected for registration!`, type: 'warning', showCancelButton: true, confirmButtonColor: '#007ACC', cancelButtonColor: '#d33', confirmButtonText: `OK!`
+                }).then(function () {
+                    document.getElementById("signUp").disabled = true;
+                    $('#bpNo').val('');
+                    $('#fullName').val('');
+                    $('#Email').val('');
+                    $('#PhoneNumber').val('');
+                    $('#Email1').val('');
+                    $('#PhoneNumber1').val('');
+                });                
+            }            
+        }
+
+        $(document).ready(function () {
+            $('#pass').hide();
+            $('form').parsley();
+
+        });
+
+    </script>
+}

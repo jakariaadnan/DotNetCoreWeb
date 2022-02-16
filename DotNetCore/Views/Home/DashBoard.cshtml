@@ -1,0 +1,460 @@
+﻿
+@{
+    ViewData["Title"] = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <style>
+        h5 {
+            color: white;
+        }
+
+        a {
+            color: white;
+        }
+
+            a:hover {
+                color: aqua;
+            }
+    </style>
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(0,67,20)">
+                        <a href="#">
+                            <br />
+                            <br />
+                            <i class="fa fa-th-large fa-3x "></i><br />
+                            <br />
+                            <br />
+                            <h5>DASHBOARD</h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(114,112,0)">
+                        <a href="#">
+                            <br />
+                            <br />
+                            <i class="fa fa-user-circle-o fa-3x "></i><br />
+                            <br />
+                            <h5>PERSONAL<br />PROFILE</h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(14,87,157)">
+                        <a href="#">
+                            <br />
+                            <br />
+                            <i class="fa fa-database fa-3x "></i><br />
+                            <br />
+                            <h5>OVER DUE<br />POSTING</h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(81,96,121)">
+                        <a href="/Employee/Assignment/EmployeePosting">
+                            <br />
+                            <br />
+                            <i class="fa fa-telegram fa-3x "></i><br />
+                            <br />
+                            <br />
+                            <h5>NEW POSTING</h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(116,56,1)">
+                        <a href="/Employee/Organization/Index">
+                            <br />
+                            <br />
+                            <i class="fa fa-sitemap fa-3x "></i><br />
+                            <br />
+                            <br />
+                            <h5>ORGANOGRAM</h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(16,22,54)">
+                        <a href="#">
+                            <br />
+                            <br />
+                            <i class="fa fa-cubes fa-3x "></i><br />
+                            <br />
+                            <h5>
+                                POSITION<br />
+                                VACANCY
+                            </h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(39,0,106)">
+                        <a href="#">
+                            <br />
+                            <br />
+                            <i class="fa fa-users fa-3x "></i><br />
+                            <br />
+                            <h5>
+                                USER<br />
+                                MANAGEMENT
+                            </h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="card text-center text-white" style="background-color:rgb(0,146,255)">
+                        <a href="#">
+                            <br />
+                            <br />
+                            <i class="fa fa-cogs fa-3x "></i><br />
+                            <br />
+                            <br />
+                            <h5>SETTINGS</h5>
+                            <br />
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <!-- body content start-->
+        <div class="body-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3">Bar chart</h5>
+                                <div class="panel-body">
+                                    <canvas id="barChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3">Line chart</h5>
+                                <div class="panel-body">
+                                    <canvas id="lineChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3">Pie chart</h5>
+                                <div class="panel-body">
+                                    <canvas id="pieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3">Doughut chart</h5>
+                                <div class="panel-body">
+                                    <canvas id="doughutChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3">Polar chart</h5>
+                                <div class="panel-body">
+                                    <canvas id="polarChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3">Single Bar Chart</h5>
+                                <div class="panel-body" id="barChart">
+                                    <canvas id="singelBarChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--end row-->
+            </div>
+            <!--end container-->
+        </div>
+        <!--end body content-->
+    </section>
+
+
+
+    @*<div class="card">
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3 text-dark">Position vacancy</h5>
+                                <canvas id="team" style="width:100%;max-width:500px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <h5 class="header-title pb-3 text-dark ">Rank Wise Over Due Posting</h5>
+                                <canvas id="myChart2"  style="width:100%;max-width:500px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card">
+                            <h5 class="header-title pb-3 text-dark mt-3 ml-3">TOP-10 Unit Wise vacancy</h5>
+                            <div class="card-body offset-2">
+                                <canvas id="myChart1" style="width:100%;max-width:350px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <h3 class="header-title pb-3 text-dark mt-3 ml-3">Top-5 Over Due Posting</h3>
+                            <div class="card-body offset-2" id="result">
+                                <canvas id="myChart" style="width:100%;max-width:350px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>*@
+
+
+
+    @section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            Common.Ajax('GET', '/global/api/GetRankWiseCount', [], 'json', barChart, false);
+        })
+
+        function barChart(response){
+
+            $('#singelBarChart').remove();// this is my <canvas> element
+            $('#barChart').append('<canvas id="singelBarChart"></canvas>');
+            var rankName = [];
+            var rankCount = [];
+
+            $.each(response, function (i, e) {
+                rankName.push(e.rankName);
+                rankCount.push(e.rankCount);
+            })
+
+
+            var rank = document.getElementById('singelBarChart').getContext('2d');
+            var chart = new Chart(rank, {
+                type: 'barChart',
+                data: {
+                    labels: rankName,
+                    datasets: [{
+                        label: "Top 5 Items",
+                        backgroundColor: palette('tol', 5).map(function (hex) {
+                            return '#' + hex;
+                        }),
+                        borderColor: '#fff',
+                        data: itemCount,
+                    }]
+                },
+            });
+      
+        }
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @*<script>
+
+                var xValues = ["ASP", "AddI SP", "SP", "AddI DIG", "DIG", "AddI IGP", "IGP"];;
+
+                new Chart("team", {
+                    type: "line",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            data: [860, 140, 60, 160, 170, 110, 330],
+                            borderColor: "red",
+                            fill: false
+                        }, {
+                            data: [160, 980, 200, 900, 20, 2000, 400],
+                            borderColor: "green",
+                            fill: false
+                        }, {
+                            data: [50, 700, 20, 375, 750, 400, 200],
+                            borderColor: "blue",
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        legend: { display: false }
+                    }
+                });
+
+                function overDuePosting(response) {
+                    $('#myChart').remove();
+                    $('#result').append('<canvas id="myChart" style="width:100%;max-width:350px"></canvas>');
+                    var itemName = [];
+                    //var itemCount = [];
+                    $.each(response, function (i, e) {
+                        itemName.push(e);
+                        console.log(response);
+                        //itemCount.push(e.itemcount);
+                    })
+                }
+
+                var xValues = ["", "", "",  "",  ""];
+                var yValues = [75, 35, 44,  15,42];
+                var barColors = [
+                    "#242440",
+                    "#8596A7",
+                    "#A7CCCC",
+                    "#EEEEDB",
+                    "gray"
+                ];
+
+                new Chart("myChart", {
+                    type: "doughnut",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: ""
+                        }
+                    }
+                });
+
+
+
+                var xValues = ["", "", "", "", "", "", "", "", "", ""];
+                var yValues = [55, 49,  40,55, 49,  40, 49,  40,55, 49];
+                var barColors = [
+                    "#254080",
+                    "#B59BC9",
+                    "#CCCC99",
+                    "#293955",
+                    "#007ACC",
+                    "pink",
+                    "#008272",
+                    "#75E475",
+                    "#FFF29D",
+                    "#743801",
+                ];
+
+                new Chart("myChart1", {
+                    type: "pie",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: ""
+                        }
+                    }
+                });
+
+                var xValues = ["ASP", "AddI SP", "SP", "AddI DIG", "DIG", "AddI IGP", "IGP"];
+                var yValues = [55, 49, 44, 24, 15, 5, 1];
+                var barColors = ["#242440", "#B59BC9", "#A7CCCC", "#242440", "brown", "#242440", "green"];
+
+                new Chart("myChart2", {
+                    type: "bar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: ""
+                        }
+                    }
+                });
+
+
+            </script>*@
+
+    }
+</body>
+</html>
+
