@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using DotNetCore.Helpers;
 using DotNetCore.Data.Entity.EmployeeInfos;
+using DotNetCore.Services.RepositoryService.Interfaces;
+using DotNetCore.Data.Entity.MasterData;
 
 namespace DotNetCore.Areas.DocumentInfo.Controllers
 {
@@ -21,15 +23,17 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IUserInfoes userInfoes;
         private readonly IEmployeeService _employeeService;
+        private readonly IRepository<DocumentCategory> _repoDocumentCategory;
 
         public DocumentController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, IUserInfoes userInfoes,
-             IEmployeeService employeeService)
+             IEmployeeService employeeService, IRepository<DocumentCategory> repoDocumentCategory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             this.userInfoes = userInfoes;
             _employeeService = employeeService;
+            _repoDocumentCategory = repoDocumentCategory;
         }
 
         public async Task<IActionResult> Index()
@@ -38,7 +42,7 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
             var empInfo = await _employeeService.GetEmployeeInfoByApplicationId(userInfo.Id);
             var model = new DocumentViewModel
             {
-                documents = await _employeeService.GetEmployeeDocumentById(empInfo.Id)
+                documents = await _employeeService.GetAllDocument()
             };
             return View(model);
         }
@@ -48,7 +52,7 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
             var empInfo = await _employeeService.GetEmployeeInfoByApplicationId(userInfo.Id);
             var model = new DocumentViewModel
             {
-               
+               documentCategory= _repoDocumentCategory.GetAll()
             };
             return View(model);
         }
@@ -59,19 +63,31 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
             var userInfo = await userInfoes.GetUserInfoByUser(User.Identity.Name);
             var empInfo = await _employeeService.GetEmployeeInfoByApplicationId(userInfo.Id);
             if (model.document != null)
-            {
-                var fileName = "";
-                string message = FileSave.SaveEmpAttachment(out fileName, model.document);
-                var obj = new EmployeeDocument
+            {                
+                var refNum = await _employeeService.GetDocumentRefNumber();
+                var master = new DocumentMaster
                 {
-                    employeeId= empInfo.Id,
-                    fileUrl= fileName,
+                    Id=0,
+                    departmentId=model.departmentId,
+                    documentCategoryId=model.documentCategoryId,
                     documentName=model.documentName,
                     documentType=model.documentType,
+                    employeeId= empInfo.Id,
+                    documentNumber= refNum,
                     date=DateTime.Now,
-                    description=model.documentDescription
+                    keywords=model.keywords,
+                    subject=model.subject
+
+
                 };
-                var save = await _employeeService.SaveEmployeeDocument(obj);
+                var saveMaster = await _employeeService.SaveDocumentMaster(master);
+                var fileName = "";
+                string message = FileSave.SaveEmpAttachment(out fileName, model.document);
+                var obj = new DocumentDetails
+                {
+                    fileUrl= fileName
+                };
+                var save = await _employeeService.SaveDocumentDetails(obj);
                 if (save > 0)
                 {
                     return RedirectToAction("Index", "Document");

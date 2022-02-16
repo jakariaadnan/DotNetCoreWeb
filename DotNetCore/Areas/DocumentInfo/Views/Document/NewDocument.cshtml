@@ -1,4 +1,4 @@
-﻿
+﻿@model DocumentViewModel;
 @{
     ViewData["Title"] = "NewDocument";
 }
@@ -8,34 +8,73 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="col-10 offset-1" style="margin-top:30px;margin-bottom:50px;border-radius:30px!important;">
             <div class="text-center mb-4">
-                <img src="~/logo/goldPolice.PNG" style="width:110px;height:100px;" class="img-fluid rounded-circle" /> <br />
                 <h1 class="text-center" id="brandtext" style="color:#ff6a00;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">PHQ Document</h1>
             </div>
-            <div class="input-group form-group">
-                <label class="col-form-label col-4">Document Name</label>
-                <input type="text" name="documentName" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Name">
+        </div>
+        <div class="col-12 row">
+            <div class="col-6">
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document Name</label>
+                    <input type="text" name="documentName" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="Document Name">
 
-            </div>
-            <div class="input-group form-group">
-                <label class="col-form-label col-4">Document Type</label>
-                <input type="text" name="documentType" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Type">
+                </div>
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document Subject</label>
+                    <input type="text" name="subject" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="Document Subject" required>
 
-            </div>
-            <div class="input-group form-group">
-                <label class="col-form-label col-4">Document Description</label>
-                <textarea name="documentDescription" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Description"></textarea>
+                </div>
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document Keywords</label>
+                    <input type="text" name="keywords" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="Document Keywords">
 
-            </div>
-            <div class="input-group form-group">
-                <label class="col-form-label col-4">Document</label>                
-                <input type="file" name="document" class="form-control col-8 form-control-sm" />
+                </div>
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document Type</label>
+                    <input type="text" name="documentType" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Type">
 
+                </div>
             </div>
-            <div class="form-group">
-                <div class="col-12 row">
-                    <div class="col-6"></div>
-                    <div class="col-4 row text-center">
-                        <input type="submit" class="btn btn-sm btn-block text-center col-6" style="border-radius:15px;background-color:#A93370;color:#fff;font-weight:bold" value="Save" />
+            <div class="col-6">
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Date</label>
+                    <input type="text" name="documentDate" id="documentDate" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="Document Date">
+
+                </div>
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document Department</label>
+                    <select class="form-control" name="departmentId" id="departmentId">
+                        <option value="">Admin</option>
+                        <option value="">ICT</option>
+                    </select>
+
+                </div>
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document Category</label>
+                    <select class="form-control" name="documentCategoryId" id="documentCategoryId" required>
+                        <option value="">Select</option>
+                        @foreach (var item in Model.documentCategory)
+                        {
+                            <option value="@item.Id">@item.categoryName</option>
+                        }
+                    </select>
+
+                </div>
+                @*<div class="input-group form-group">
+            <label class="col-form-label col-4">Document Description</label>
+            <textarea name="documentDescription" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Description"></textarea>
+
+        </div>*@
+                <div class="input-group form-group">
+                    <label class="col-form-label col-4">Document</label>
+                    <input type="file" name="document" class="form-control col-6 form-control-sm" />
+                    <a class="col-1 ml-3 btn btn-success" href="javascript:void()" onclick="addMultipleFile()"><i class="fa fa-plus"></i></a>
+                </div>
+                <div class="form-group">
+                    <div class="col-12 row">
+                        <div class="col-6"></div>
+                        <div class="col-4 row text-center">
+                            <input type="submit" class="btn btn-sm btn-block text-center col-6" style="border-radius:15px;background-color:#A93370;color:#fff;font-weight:bold" value="Save" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,4 +82,12 @@
     </form>
 
 </div>
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $('#documentDate').datepicker({ dateFormat: "dd-M-yy", showAnim: "scale", changeMonth: true, changeYear: true, yearRange: "1900:2100" });
+
+        })
+    </script>
+}
 

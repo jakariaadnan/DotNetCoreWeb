@@ -23,26 +23,27 @@ namespace DotNetCore.Data
         }
 
         #region Master Data
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Designation> Designations { get; set; }
-        public DbSet<EmployeeType> EmployeeTypes { get; set; }
-        public DbSet<Rank> Ranks { get; set; }
-        public DbSet<Religion> Religions { get; set; }
-        public DbSet<Section> Sections { get; set; }
-        public DbSet<SpecialBranchUnit> SpecialBranchUnits { get; set; }
-        public DbSet<SubBranchUnit> SubBranchUnits { get; set; }
-        public DbSet<StatusInfo> StatusInfos { get; set; }
-        public DbSet<BCSBatch> BCSBatches { get; set; }
-        public DbSet<UserLog> UserLogs { get; set; }
-        public DbSet<District> Districts { get; set; }
-        public DbSet<Division> Divisions { get; set; }
-
+        public DbSet<Department> departments { get; set; }
+        public DbSet<Designation> designations { get; set; }
+        public DbSet<EmployeeType> employeeTypes { get; set; }
+        public DbSet<Rank> ranks { get; set; }
+        public DbSet<Religion> religions { get; set; }
+        public DbSet<Section> sections { get; set; }
+        public DbSet<SpecialBranchUnit> specialBranchUnits { get; set; }
+        public DbSet<SubBranchUnit> subBranchUnits { get; set; }
+        public DbSet<StatusInfo> statusInfos { get; set; }
+        public DbSet<BCSBatch> bCSBatches { get; set; }
+        public DbSet<UserLog> userLogs { get; set; }
+        public DbSet<District> districts { get; set; }
+        public DbSet<Division> divisions { get; set; }
+        public DbSet<DocumentCategory> documentCategories { get; set; }
 
         #endregion
 
         #region Employee Infoes
-        public DbSet<EmployeeInfo> EmployeeInfos{ get; set; }
-        public DbSet<EmployeeDocument> EmployeeDocuments { get; set; }
+        public DbSet<EmployeeInfo> employeeInfos{ get; set; }
+        public DbSet<DocumentMaster> documentMaster { get; set; }
+        public DbSet<DocumentDetails> documentDetails { get; set; }
 
         #endregion
 

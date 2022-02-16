@@ -4,14 +4,16 @@ using DotNetCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DotNetCore.Migrations
 {
     [DbContext(typeof(CoreWebDBContext))]
-    partial class CoreWebDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220216110341_catagory tbl and document master details add")]
+    partial class catagorytblanddocumentmasterdetailsadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

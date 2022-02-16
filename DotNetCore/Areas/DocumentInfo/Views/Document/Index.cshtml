@@ -13,9 +13,12 @@
                 <tr>
                     <th>Sl</th>
                     <th>Name</th>
+                    <th>Department</th>
+                    <th>Subject</th>
+                    <th>Category</th>
                     <th>Date</th>
                     <th>Type</th>
-                    <th>Description</th>
+                    <th>Keywords</th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,9 +30,12 @@
                     <tr>
                         <th>@i</th>
                         <th>@item.documentName</th>
+                        <th>@item.department?.deptName</th>
+                        <th>@item.subject</th>
+                        <th>@item.documentCategory?.categoryName</th>
                         <th>@item.date?.ToString("dd-MMM-yyyy")</th>
                         <th>@item.documentType</th>
-                        <th>@item.description</th>
+                        <th>@item.keywords</th>
                         <th>
                             <a class="btn btn-sm btn-success" href="#">Details</a>
                         </th>

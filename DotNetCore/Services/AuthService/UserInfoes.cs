@@ -22,7 +22,7 @@ namespace DotNetCore.Services.AuthService
 
         public async Task<IEnumerable<EmployeeInfo>> GetAllUserInfo()
         {
-            return await _context.EmployeeInfos.Where(x=>x.ApplicationUserId !=null).Include(x => x.ApplicationUser)
+            return await _context.employeeInfos.Where(x=>x.ApplicationUserId !=null).Include(x => x.ApplicationUser)
                 .Include(x=>x.rank).ToListAsync();
         }
 
@@ -33,12 +33,12 @@ namespace DotNetCore.Services.AuthService
 
         public async Task<EmployeeInfo> GetEmployeeInfoByUserName(string userName)
         {
-            return await _context.EmployeeInfos.Where(x => x.ApplicationUser.UserName == userName).Include(x=>x.ApplicationUser).Include(x=>x.rank).FirstOrDefaultAsync();
+            return await _context.employeeInfos.Where(x => x.ApplicationUser.UserName == userName).Include(x=>x.ApplicationUser).Include(x=>x.rank).FirstOrDefaultAsync();
         }
 
         public async Task<EmployeeInfo> GetUserInfoByUserId(string userId)
         {
-            return await _context.EmployeeInfos.Where(x => x.ApplicationUserId == userId).Include(x=>x.ApplicationUser)
+            return await _context.employeeInfos.Where(x => x.ApplicationUserId == userId).Include(x=>x.ApplicationUser)
                 .Include(x=>x.religion).Include(x=>x.employeeType).Include(x=>x.department).Include(x=>x.branch)
                 .Include(x=>x.rank).Include(x=>x.designations).Include(x=>x.section).Include(x=>x.bCSBatch)
                 .FirstOrDefaultAsync();
@@ -142,7 +142,7 @@ namespace DotNetCore.Services.AuthService
 
         public async Task<IEnumerable<EmployeeInfo>> GetUserInfosFromEmployee()
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.department)

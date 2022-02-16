@@ -21,8 +21,8 @@ namespace DotNetCore.Services.Employee
 
         public async Task<IEnumerable<Rank>> GetRankWiseCount()
         {
-            var result = await (from rank in _context.Ranks
-                                join emp in _context.EmployeeInfos on rank.Id equals emp.rankId
+            var result = await (from rank in _context.ranks
+                                join emp in _context.employeeInfos on rank.Id equals emp.rankId
                                 select rank).ToListAsync();
 
             return result;
@@ -30,7 +30,7 @@ namespace DotNetCore.Services.Employee
 
         public async Task<IEnumerable<EmployeeInfo>> GetEmployeeForChartJs()
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.section.specialBranchUnit)
                 ///.Where(x => x.servicePeriod >)
@@ -40,7 +40,7 @@ namespace DotNetCore.Services.Employee
 
         public void UpdateEmployeeInfoStatusById(int empId, int status)
         {
-            var user = _context.EmployeeInfos.Find(empId);
+            var user = _context.employeeInfos.Find(empId);
             user.isApproved = status;
             user.updatedAt = DateTime.Now;
             _context.Entry(user).State = EntityState.Modified;
@@ -53,11 +53,11 @@ namespace DotNetCore.Services.Employee
             {
                 if (employeeInfo.Id != 0)
                 {
-                    _context.EmployeeInfos.Update(employeeInfo);
+                    _context.employeeInfos.Update(employeeInfo);
                 }
                 else
                 {
-                    _context.EmployeeInfos.Add(employeeInfo);
+                    _context.employeeInfos.Add(employeeInfo);
                 }
 
                 await _context.SaveChangesAsync();
@@ -71,7 +71,7 @@ namespace DotNetCore.Services.Employee
 
         public async Task<EmployeeInfo> GetEmployeeInfoById(string empCode)
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.branch)
@@ -84,7 +84,7 @@ namespace DotNetCore.Services.Employee
         }
         public async Task<EmployeeInfo> GetEmployeeInfoByEmpId(int id)
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.branch)
@@ -97,7 +97,7 @@ namespace DotNetCore.Services.Employee
         }
         public async Task<EmployeeInfo> GetEmployeeInfoByApplicationId(string userId)
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.branch)
@@ -109,23 +109,15 @@ namespace DotNetCore.Services.Employee
             return result;
         }
 
-        public async Task<IEnumerable<EmployeeDocument>> GetEmployeeDocumentById(int id)
-        {
-            var result = await _context.EmployeeDocuments
-                .Include(x => x.employee)
-                .Where(x => x.employeeId == id).AsNoTracking().ToListAsync();
-            return result;
-        }
-
         public async Task<EmployeeInfo> GetEmployeeInfoSingleById(string empCode)
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Where(x => x.employeeCode == empCode).AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
         public async Task<EmployeeInfo> GetEmployeeProfileInfoById(int id)
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.branch)
@@ -139,12 +131,12 @@ namespace DotNetCore.Services.Employee
 
         public EmployeeInfo GetBasicEmployeeInfoById(int id)
         {
-            var result = _context.EmployeeInfos.Find(id);
+            var result = _context.employeeInfos.Find(id);
             return result;
         }
         public async Task<EmployeeInfo> GetEmployeeInfosByEmpId(int empId)
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.department)
@@ -161,7 +153,7 @@ namespace DotNetCore.Services.Employee
 
         public async Task<IEnumerable<EmployeeInfo>> GetEmployeeInfos()
         {
-            var result = await _context.EmployeeInfos
+            var result = await _context.employeeInfos
                 .Include(x => x.rank)
                 .Include(x => x.designations)
                 .Include(x => x.department)
@@ -176,18 +168,23 @@ namespace DotNetCore.Services.Employee
         }
 
         #region Document
-
-        public async Task<int> SaveEmployeeDocument(EmployeeDocument document)
+        public async Task<string> GetDocumentRefNumber()
+        {
+            var count = await _context.documentMaster.CountAsync();
+            var refNo = "PHQ/Doc/" + count;
+            return refNo;
+        }
+        public async Task<int> SaveDocumentDetails(DocumentDetails document)
         {
             try
             {
                 if (document.Id != 0)
                 {
-                    _context.EmployeeDocuments.Update(document);
+                    _context.documentDetails.Update(document);
                 }
                 else
                 {
-                    _context.EmployeeDocuments.Add(document);
+                    _context.documentDetails.Add(document);
                 }
 
                 await _context.SaveChangesAsync();
@@ -197,6 +194,31 @@ namespace DotNetCore.Services.Employee
             {
                 throw ex;
             }
+        }
+        public async Task<int> SaveDocumentMaster(DocumentMaster documentMaster)
+        {
+            try
+            {
+                if (documentMaster.Id != 0)
+                {
+                    _context.documentMaster.Update(documentMaster);
+                }
+                else
+                {
+                    _context.documentMaster.Add(documentMaster);
+                }
+
+                await _context.SaveChangesAsync();
+                return documentMaster.Id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<IEnumerable<DocumentMaster>> GetAllDocument()
+        {
+            return await _context.documentMaster.Include(x=>x.documentCategory).Include(x=>x.department).ToListAsync();
         }
         #endregion
     }

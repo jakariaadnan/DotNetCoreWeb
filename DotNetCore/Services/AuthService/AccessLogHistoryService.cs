@@ -25,11 +25,11 @@ namespace DotNetCore.Services.AuthService
             {
                 if (userLogHistory.Id != 0)
                 {
-                    _context.UserLogs.Update(userLogHistory);
+                    _context.userLogs.Update(userLogHistory);
                 }
                 else
                 {
-                    _context.UserLogs.Add(userLogHistory);
+                    _context.userLogs.Add(userLogHistory);
                 }
 
                 await _context.SaveChangesAsync();
@@ -43,13 +43,13 @@ namespace DotNetCore.Services.AuthService
 
         public async Task<IEnumerable<UserLog>> GetAllUserLogHistory()
         {
-            //return await _context.UserLogs.Select(x => new UserLog { userId = x.userId, logTime = x.logTime, ipAddress = x.ipAddress, statusName = x.status == 1 ? "Logged In" : x.status == 0 ? "Logged Out" : "Logged Off" }).ToListAsync();
-            return await _context.UserLogs.ToListAsync();
+            //return await _context.userLogs.Select(x => new UserLog { userId = x.userId, logTime = x.logTime, ipAddress = x.ipAddress, statusName = x.status == 1 ? "Logged In" : x.status == 0 ? "Logged Out" : "Logged Off" }).ToListAsync();
+            return await _context.userLogs.ToListAsync();
         }
 
         public async Task<IEnumerable<UserLog>> GetUserLogHistoryByUser(string userName)
         {
-            return await _context.UserLogs.Where(x => x.createdBy == userName).ToListAsync();
+            return await _context.userLogs.Where(x => x.createdBy == userName).ToListAsync();
         }
 
     }

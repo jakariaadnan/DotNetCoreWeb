@@ -6,6 +6,8 @@ using DotNetCore.Services.AuthService;
 using DotNetCore.Services.AuthService.Interfaces;
 using DotNetCore.Services.Employee;
 using DotNetCore.Services.Employee.Interfaces;
+using DotNetCore.Services.RepositoryService;
+using DotNetCore.Services.RepositoryService.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -148,10 +150,11 @@ namespace DotNetCore
 
             #region Service
             #region Employee
-            #region Employee
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IUserInfoes, UserInfoes>();
             #endregion
+            #region Master Data
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             #endregion
             #endregion
 

@@ -29,6 +29,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\MasterData\Data\" />
     <Folder Include="wwwroot\EmpAttachment\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
