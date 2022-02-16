@@ -82,6 +82,40 @@ namespace DotNetCore.Services.Employee
                 .Where(x => x.employeeCode == empCode).AsNoTracking().FirstOrDefaultAsync();
             return result;
         }
+        public async Task<EmployeeInfo> GetEmployeeInfoByEmpId(int id)
+        {
+            var result = await _context.EmployeeInfos
+                .Include(x => x.rank)
+                .Include(x => x.designations)
+                .Include(x => x.branch)
+                .Include(x => x.section)
+                .Include(x => x.religion)
+                .Include(x => x.rank)
+                .Include(x => x.bCSBatch)
+                .Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<EmployeeInfo> GetEmployeeInfoByApplicationId(string userId)
+        {
+            var result = await _context.EmployeeInfos
+                .Include(x => x.rank)
+                .Include(x => x.designations)
+                .Include(x => x.branch)
+                .Include(x => x.section)
+                .Include(x => x.religion)
+                .Include(x => x.rank)
+                .Include(x => x.bCSBatch)
+                .Where(x => x.ApplicationUserId == userId).AsNoTracking().FirstOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<EmployeeDocument>> GetEmployeeDocumentById(int id)
+        {
+            var result = await _context.EmployeeDocuments
+                .Include(x => x.employee)
+                .Where(x => x.employeeId == id).AsNoTracking().ToListAsync();
+            return result;
+        }
 
         public async Task<EmployeeInfo> GetEmployeeInfoSingleById(string empCode)
         {
@@ -141,153 +175,29 @@ namespace DotNetCore.Services.Employee
             return result;
         }
 
-        public async Task<IEnumerable<EmployeeInfo>> GetEmployeeInfoList(int statusId)
+        #region Document
+
+        public async Task<int> SaveEmployeeDocument(EmployeeDocument document)
         {
-            if (statusId == 0) // All Employee
+            try
             {
-                return await _context.EmployeeInfos
-                .Include(x => x.rank)
-                .Include(x => x.designations)
-                .Include(x => x.department)
-                .Include(x => x.branch)
-                .Include(x => x.section)
-                .Include(x => x.religion)
-                .Include(x => x.rank)
-                .Include(x => x.bCSBatch)
-                .ToListAsync();
+                if (document.Id != 0)
+                {
+                    _context.EmployeeDocuments.Update(document);
+                }
+                else
+                {
+                    _context.EmployeeDocuments.Add(document);
+                }
+
+                await _context.SaveChangesAsync();
+                return document.Id;
             }
-            else if (statusId == 1)
+            catch (Exception ex)
             {
-                return await _context.EmployeeInfos
-              .Include(x => x.rank)
-              .Include(x => x.designations)
-              .Include(x => x.department)
-              .Include(x => x.branch)
-              .Include(x => x.section)
-              .Include(x => x.religion)
-              .Include(x => x.rank)
-              .Include(x => x.bCSBatch)
-              .Where(x => x.isApproved == 1 || x.isApproved == 2)
-              .ToListAsync();
+                throw ex;
             }
-            else
-            {
-                return await _context.EmployeeInfos
-              .Include(x => x.rank)
-              .Include(x => x.designations)
-              .Include(x => x.department)
-              .Include(x => x.branch)
-              .Include(x => x.section)
-              .Include(x => x.religion)
-              .Include(x => x.rank)
-              .Include(x => x.bCSBatch)
-              .Where(x => x.isApproved == statusId)
-              .ToListAsync();
-            }
-
-
-
         }
-
-        public async Task<IEnumerable<EmployeeInfo>> GetCheckedEmployeeInfoList()
-        {
-            var result = await _context.EmployeeInfos
-          .Include(x => x.rank)
-          .Include(x => x.designations)
-          .Include(x => x.department)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.religion)
-          .Include(x => x.rank)
-          .Include(x => x.bCSBatch)
-          .ToListAsync();
-
-            return result;
-        }
-
-        public async Task<IEnumerable<EmployeeInfo>> GetCheckedUpdatedEmployeeInfoList()
-        {
-            return await _context.EmployeeInfos
-          .Include(x => x.rank)
-          .Include(x => x.designations)
-          .Include(x => x.department)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.religion)
-          .Include(x => x.rank)
-          .Include(x => x.bCSBatch)
-          .ToListAsync();
-        }
-
-        public async Task<IEnumerable<EmployeeInfo>> LoadCheckedUpdatedEmployeeInfoList(int rankId, int unitId, int batchId)
-        {
-            return await _context.EmployeeInfos.Where(x => x.rankId == (rankId == 0 ? x.rankId : rankId) && x.branchId == (unitId == 0 ? x.branchId : unitId) && x.bCSBatchId == (batchId == 0 ? x.bCSBatchId : batchId))
-          .Include(x => x.rank)
-          .Include(x => x.designations)
-          .Include(x => x.department)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.religion)
-          .Include(x => x.rank)
-          .Include(x => x.bCSBatch)
-          .Where(x => x.isApproved == 8)
-          .ToListAsync();
-        }
-
-        public async Task<IEnumerable<EmployeeInfo>> GetCheckedUpdatedEmployeeInfoListUpdate()
-        {
-            return await _context.EmployeeInfos
-          .Include(x => x.rank)
-          .Include(x => x.designations)
-          .Include(x => x.department)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.religion)
-          .Include(x => x.rank)
-          .Include(x => x.bCSBatch)
-          .ToListAsync();
-        }
-
-        public async Task<IEnumerable<EmployeeInfo>> GetOverDueEmployeeInfoList()
-        {
-            return await _context.EmployeeInfos
-          .Include(x => x.rank)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.bCSBatch)
-          .Where(x => Convert.ToDateTime(x.joiningDatePresentWorkstation).Date < DateTime.Now.AddYears(-2))
-          .Where(x => x.joiningDatePresentWorkstation != null)
-          .Where(x => x.employeeTypeId == 1)
-          .OrderBy(x => x.joiningDatePresentWorkstation)
-          .ToListAsync();
-        }
-
-        public async Task<IEnumerable<EmployeeInfo>> GetOverDueEmployeeInfoListFilter(int rank, int unit, int batch)
-        {
-            return await _context.EmployeeInfos
-          .Include(x => x.rank)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.bCSBatch)
-          .Where(x => Convert.ToDateTime(x.joiningDatePresentWorkstation).Date < DateTime.Now.AddYears(-2))
-          .Where(x => x.branchId == (unit == 0 ? x.branchId : unit) && x.rankId == (rank == 0 ? x.rankId : rank) && x.bCSBatchId == (batch == 0 ? x.bCSBatchId : batch))
-          .Where(x => x.joiningDatePresentWorkstation != null)
-          .OrderBy(x => x.joiningDatePresentWorkstation)
-          .ToListAsync();
-        }
-
-        public async Task<IEnumerable<EmployeeInfo>> GetOverDueEmployeeInfoList(int rank, int unit, int batch)
-        {
-            return await _context.EmployeeInfos
-          .Include(x => x.rank)
-          .Include(x => x.branch)
-          .Include(x => x.section)
-          .Include(x => x.bCSBatch)
-          .Where(x => Convert.ToDateTime(x.joiningDatePresentWorkstation).Date < DateTime.Now.AddYears(-2))
-          .Where(x => x.branchId == (unit == 0 ? x.branchId : unit) && x.rankId == (rank == 0 ? x.rankId : rank) && x.bCSBatchId == (batch == 0 ? x.bCSBatchId : batch))
-          .Where(x => x.joiningDatePresentWorkstation != null)
-          .OrderBy(x => x.joiningDatePresentWorkstation)
-          .ToListAsync();
-        }
+        #endregion
     }
 }

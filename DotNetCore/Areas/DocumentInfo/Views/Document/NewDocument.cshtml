@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "NewDocument";
+}
+
+<div class="col-12">
+    <form asp-area="DocumentInfo" asp-controller="Document" asp-action="NewDocument" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="col-10 offset-1" style="margin-top:30px;margin-bottom:50px;border-radius:30px!important;">
+            <div class="text-center mb-4">
+                <img src="~/logo/goldPolice.PNG" style="width:110px;height:100px;" class="img-fluid rounded-circle" /> <br />
+                <h1 class="text-center" id="brandtext" style="color:#ff6a00;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">PHQ Document</h1>
+            </div>
+            <div class="input-group form-group">
+                <label class="col-form-label col-4">Document Name</label>
+                <input type="text" name="documentName" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Name">
+
+            </div>
+            <div class="input-group form-group">
+                <label class="col-form-label col-4">Document Type</label>
+                <input type="text" name="documentType" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Type">
+
+            </div>
+            <div class="input-group form-group">
+                <label class="col-form-label col-4">Document Description</label>
+                <textarea name="documentDescription" style="border:1px solid #4800ff;" class="form-control col-8 form-control-sm pr-5" placeholder="File Description"></textarea>
+
+            </div>
+            <div class="input-group form-group">
+                <label class="col-form-label col-4">Document</label>                
+                <input type="file" name="document" class="form-control col-8 form-control-sm" />
+
+            </div>
+            <div class="form-group">
+                <div class="col-12 row">
+                    <div class="col-6"></div>
+                    <div class="col-4 row text-center">
+                        <input type="submit" class="btn btn-sm btn-block text-center col-6" style="border-radius:15px;background-color:#A93370;color:#fff;font-weight:bold" value="Save" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+

@@ -9,6 +9,8 @@ namespace DotNetCore.Data.Entity.EmployeeInfos
     {
         public int? employeeId { get; set; }
         public EmployeeInfo employee { get; set; }
+        public DateTime? date { get; set; }
+        public string documentName { get; set; }
         public string documentType { get; set; }
         public string fileUrl { get; set; }
         public int status { get; set; }

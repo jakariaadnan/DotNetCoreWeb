@@ -42,6 +42,7 @@ namespace DotNetCore.Data
 
         #region Employee Infoes
         public DbSet<EmployeeInfo> EmployeeInfos{ get; set; }
+        public DbSet<EmployeeDocument> EmployeeDocuments { get; set; }
 
         #endregion
 

@@ -29,7 +29,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\DocumentInfo\Models\" />
+    <Folder Include="wwwroot\EmpAttachment\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
