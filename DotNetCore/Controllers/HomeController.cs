@@ -48,7 +48,7 @@ namespace DotNetCore.Controllers
             //{
             //    return View();
             //}
-            return View();
+            return RedirectToAction("LogIn", "Account", new { Area = "Auth" });
         }
 
         public IActionResult Privacy()

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AlphaManagement.Domain.AuthService.Interfaces;
 using static System.Collections.Specialized.BitVector32;
 using DotNetCore.Data;
 using DotNetCore.Data.Entity.EmployeeInfos;
 using DotNetCore.Data.Entity;
+using DotNetCore.Services.AuthService.Interfaces;
 
-namespace AlphaManagement.Domain.AuthService
+namespace DotNetCore.Services.AuthService
 {
     public class UserInfoes: IUserInfoes
     {

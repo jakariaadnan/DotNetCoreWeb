@@ -1,6 +1,5 @@
 ﻿using DotNetCore.Data.Entity;
 using DotNetCore.Data.Entity.EmployeeInfos;
-using AlphaManagement.Domain.AuthService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +10,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DotNetCore.Services.Employee.Interfaces;
 using DotNetCore.Areas.Auth.Models;
+using DotNetCore.Services.AuthService.Interfaces;
 
-namespace AlphaManagement.Web.Areas.Auth.Controllers
+namespace DotNetCore.Areas.Auth.Controllers
 {
 
     [Area("Auth")]
@@ -52,57 +52,27 @@ namespace AlphaManagement.Web.Areas.Auth.Controllers
                 if (userInfos != null)
                 {
                     var users = await _userManager.FindByIdAsync(userInfos.Id);
-                    var roless = await _userManager.GetRolesAsync(users);
-                    if (userInfos.isActive == 1 && roless.Contains("Admin"))
+                    var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, lockoutOnFailure: true);
+                    if (result.Succeeded)
                     {
-                        var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, lockoutOnFailure: true);
-                        if (result.Succeeded)
-                        {
-                            var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
-                            var userAgent = Request.Headers["User-Agent"].ToString();
-                            var mechineName = Environment.MachineName;
+                        var ip = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                        var userAgent = Request.Headers["User-Agent"].ToString();
+                        var mechineName = Environment.MachineName;
 
-                            //UserLogHistory userLog = new UserLogHistory
-                            //{
-                            //    userId = model.Name,
-                            //    logTime = DateTime.Now,
-                            //    status = 1,
-                            //    ipAddress = ip,
-                            //    pcName = mechineName,
-                            //    browserName = userAgent
-                            //};
+                        //UserLogHistory userLog = new UserLogHistory
+                        //{
+                        //    userId = model.Name,
+                        //    logTime = DateTime.Now,
+                        //    status = 1,
+                        //    ipAddress = ip,
+                        //    pcName = mechineName,
+                        //    browserName = userAgent
+                        //};
 
-                            //await _accessLogHistoryService.SaveUserLogHistory(userLog);
-                            var user = await _userManager.FindByIdAsync(userInfos.Id);
-                            var roles = await _userManager.GetRolesAsync(user);
-
-                            if (roles.Contains("Admin"))
-                            {
-                                if (user.UserName == "IGP")
-                                {
-                                    return RedirectToAction("Dashboard", "Home");
-                                }
-                                else
-                                {
-                                    return RedirectToAction("Dashboard", "Home");
-                                }
-                            }
-                            else if (roles.Contains("General User"))
-                            {
-                                return RedirectToAction("Index", "EmployeeInfo", new { id = model.Name, Area = "Employee" });
-                            }
-                            else
-                            {
-                                return RedirectToLocal(returnUrl);
-                            }
+                        //await _accessLogHistoryService.SaveUserLogHistory(userLog);
+                        return RedirectToAction("Index", "Document", new { Area= "DocumentInfo" });
 
 
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                            return View(model);
-                        }
                     }
                     else
                     {
@@ -198,6 +168,49 @@ namespace AlphaManagement.Web.Areas.Auth.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            var userInfo = await _employeeService.GetEmployeeInfoById(model.BPNo);
+            var userEmailCheck = await _userManager.FindByEmailAsync(model.Email);
+            string username = HttpContext.User.Identity.Name;
+            if (userEmailCheck != null || userInfo != null)
+            {
+                var returnReason = "Failed";
+                if (userEmailCheck != null)
+                {
+                    returnReason = "This Email Already Exist";
+                }
+                else if (userInfo != null)
+                {
+                    returnReason = "This User Already Exist";
+                }
+                ModelState.AddModelError("Error", returnReason);
+                return View();
+
+            }
+            if (userInfo == null)
+            {
+                var user = new ApplicationUser { UserName = model.BPNo, isActive = 1, Email = model.Email, bpNo = model.BPNo, PhoneNumber = model.PhoneNumber };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    var roleAssign = await _userManager.AddToRoleAsync(user, "General User");
+                    string otpnumber = RandomString(4);
+                    var emp = new EmployeeInfo
+                    {
+                        nameEnglish = model.Name,
+                        employeeCode = model.BPNo,
+                        emailAddressPersonal = model.Email,
+                        mobileNumberPersonal = model.PhoneNumber,
+                        ApplicationUserId = user.Id
+                    };
+                    var empSave = await _employeeService.SaveEmployeeInformation(emp);
+                    
+                }
+            }
+            return RedirectToAction("LogIn", "Account", new { Area = "Auth" });
+        }
 
         [HttpGet]
         public IActionResult UserRegister()

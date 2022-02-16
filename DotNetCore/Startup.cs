@@ -2,6 +2,8 @@
 using DinkToPdf.Contracts;
 using DotNetCore.Data;
 using DotNetCore.Data.Entity;
+using DotNetCore.Services.AuthService;
+using DotNetCore.Services.AuthService.Interfaces;
 using DotNetCore.Services.Employee;
 using DotNetCore.Services.Employee.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -148,6 +150,7 @@ namespace DotNetCore
             #region Employee
             #region Employee
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IUserInfoes, UserInfoes>();
             #endregion
             #endregion
             #endregion

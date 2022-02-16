@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AlphaManagement.Domain.AuthService
+namespace DotNetCore.Services.AuthService
 {
     public class JwtFactoryService
     {
