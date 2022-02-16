@@ -30,6 +30,7 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            
             return View();
         }
     }
