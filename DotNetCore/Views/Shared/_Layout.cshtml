@@ -39,8 +39,7 @@
     <link href="~/plugins/sweet-alert/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
     @RenderSection("Style", required: false)
-
-
+   
 </head>
 <body class="sticky-header">
     <section>
@@ -247,11 +246,11 @@
                         </li>
 
                         @*<li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                            <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                            <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>*@
+                <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>*@
 
                         <li class="search-content">
-                            <h1 class="text-center" style="color:#101636;font-family: 'Orbitron', cursive;">PHQ Document</h1>
+                            <h1 class="text-center" style="color:#101636;font-family: 'Orbitron', cursive;">PDM</h1>
                         </li>
                         <li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </li>
                         <li style="margin-left:100%">
@@ -260,7 +259,6 @@
                                 <span class="search-button"><i class="ti ti-search"></i></span>
                             </form>
                         </li>
-
                     </ul>
                 </div>
                 <!--mega menu end-->
@@ -272,27 +270,28 @@
                             <li>
                                 <a href="javascript:;" data-toggle="modal" data-target="#logoutModal">
                                     @*@if (emp?.imageUrl == null || emp?.imageUrl == "")
-                                    {
-                                        <img src="~/images/users/userImage.jpg" alt="" class="img-fluid rounded-circle" style="height:40px;width:40px;">
+                            {
+                                <img src="~/images/users/userImage.jpg" alt="" class="img-fluid rounded-circle" style="height:40px;width:40px;">
 
-                                    }
-                                    else
-                                    {
-                                        <img src="http://103.95.38.230/@emp?.imageUrl" alt="" class="img-fluid rounded-circle" style="height:40px;width:40px;">
-                                    }*@
+                            }
+                            else
+                            {
+                                <img src="http://103.95.38.230/@emp?.imageUrl" alt="" class="img-fluid rounded-circle" style="height:40px;width:40px;">
+                            }*@
                                 </a>
                                 @*<div class="dropdown-menu dropdown-menu-right profile-menu" >
-                                        <a class="dropdown-item" href="/Auth/Account/Logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
-                                    </div>*@
+                            <a class="dropdown-item" href="/Auth/Account/Logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                        </div>*@
                             </li>
                             @*<li>
-                                    <div class="sb-toggle-right">
-                                        <i class="mdi mdi-apps"></i>
-                                    </div>
-                                </li>*@
+                        <div class="sb-toggle-right">
+                            <i class="mdi mdi-apps"></i>
+                        </div>
+                    </li>*@
                         </ul>
                     </div><!--right notification end-->
                 </div>
+                <a class="float-right mt-3 btn btn-sm" href="/Auth/Account/LogOut"><b>Log Out</b></a>
             </div>
             <!-- header section end-->
 
