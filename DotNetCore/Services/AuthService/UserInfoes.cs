@@ -9,6 +9,7 @@ using DotNetCore.Data;
 using DotNetCore.Data.Entity.EmployeeInfos;
 using DotNetCore.Data.Entity;
 using DotNetCore.Services.AuthService.Interfaces;
+using DotNetCore.Areas.Auth.Models;
 
 namespace DotNetCore.Services.AuthService
 {
@@ -44,50 +45,50 @@ namespace DotNetCore.Services.AuthService
                 .FirstOrDefaultAsync();
         }
 
-        //public async Task<AspNetUsersViewModel> GetUserInfoByUserName(string userName)
-        //{
-        //    var result =await (from U in _context.Users
-        //                  join E in _context.EmployeeInfos on U.Id equals E.ApplicationUserId into EE
-        //                  from emp in EE.DefaultIfEmpty()
-        //                  join pl in _context.Sections on emp.sectionId equals pl.Id into pp
-        //                  from PCL in pp.DefaultIfEmpty()
-        //                  join sbu in _context.SpecialBranchUnits on emp.branchId equals sbu.Id into ssb
-        //                  from sb in ssb.DefaultIfEmpty()
-        //                  join R in _context.Ranks on emp.rankId equals R.Id into DD
-        //                  from dpt in DD.DefaultIfEmpty()
-        //                  join PH in _context.Photographs.Where(x => x.type == "profile").Take(1) on emp.Id equals PH.Id into PP
-        //                  from P in PP.DefaultIfEmpty()
-        //                  join ur in _context.UserRoles on U.Id equals ur.UserId
-        //                  join ar in _context.Roles on ur.RoleId equals ar.Id
-        //                  join bh in _context.BCSBatches on emp.bCSBatchId equals bh.Id into bbc
-        //                  from bb in bbc.DefaultIfEmpty()
-        //                  where U.UserName == userName
+        public async Task<AspNetUsersViewModel> GetUserInfoByUserName(string userName)
+        {
+            var result = await (from U in _context.Users
+                                join E in _context.employeeInfos on U.Id equals E.ApplicationUserId into EE
+                                from emp in EE.DefaultIfEmpty()
+                                join pl in _context.sections on emp.sectionId equals pl.Id into pp
+                                from PCL in pp.DefaultIfEmpty()
+                                join sbu in _context.specialBranchUnits on emp.branchId equals sbu.Id into ssb
+                                from sb in ssb.DefaultIfEmpty()
+                                join R in _context.ranks on emp.rankId equals R.Id into DD
+                                from dpt in DD.DefaultIfEmpty()
+                                //join PH in _context.Photographs.Where(x => x.type == "profile").Take(1) on emp.Id equals PH.Id into PP
+                                //from P in PP.DefaultIfEmpty()
+                                join ur in _context.UserRoles on U.Id equals ur.UserId
+                                join ar in _context.Roles on ur.RoleId equals ar.Id
+                                join bh in _context.bCSBatches on emp.bCSBatchId equals bh.Id into bbc
+                                from bb in bbc.DefaultIfEmpty()
+                                where U.UserName == userName
 
-        //                  select new AspNetUsersViewModel
-        //                  {
-        //                      aspnetId = U.Id,
-        //                      userName = U.UserName,
-        //                      email = U.Email,
-        //                      empCode = emp.employeeCode,
-        //                      isActive = (U.isActive == null) ? 0 : U.isActive,
-        //                      empName = emp.nameEnglish,
-        //                      employeeId = emp.Id,
-        //                      sectionName = PCL.Name,
-        //                      rankName = dpt.rankName,
-        //                      rankId=emp.rankId,
-        //                      unitId=emp.branchId,
-        //                      unitName=sb.branchUnitName,
-        //                      roleId=ar.Id,
-        //                      roleName=ar.Name,
-        //                      batchName=bb.batchName,
-        //                      joiningDate=emp.joiningDateGovtService,
-        //                      joiningDatePresentWorkStation=emp.joiningDatePresentWorkstation,
-        //                      mobileNo=emp.mobileNumberPersonal,
-        //                      status=emp.isApproved,
-        //                      imageUrl=P.url
-        //                  }).FirstOrDefaultAsync();
-        //    return result;
-        //}
+                                select new AspNetUsersViewModel
+                                {
+                                    aspnetId = U.Id,
+                                    userName = U.UserName,
+                                    email = U.Email,
+                                    empCode = emp.employeeCode,
+                                    isActive = (U.isActive == null) ? 0 : U.isActive,
+                                    empName = emp.nameEnglish,
+                                    employeeId = emp.Id,
+                                    sectionName = PCL.Name,
+                                    rankName = dpt.rankName,
+                                    rankId = emp.rankId,
+                                    unitId = emp.branchId,
+                                    unitName = sb.branchUnitName,
+                                    roleId = ar.Id,
+                                    roleName = ar.Name,
+                                    batchName = bb.batchName,
+                                    joiningDate = emp.joiningDateGovtService,
+                                    joiningDatePresentWorkStation = emp.joiningDatePresentWorkstation,
+                                    mobileNo = emp.mobileNumberPersonal,
+                                    status = emp.isApproved,
+                                    //imageUrl = P.url
+                                }).FirstOrDefaultAsync();
+            return result;
+        }
 
         //public async Task<IEnumerable<AspNetUsersViewModel>> GetUserInfoList()
         //{

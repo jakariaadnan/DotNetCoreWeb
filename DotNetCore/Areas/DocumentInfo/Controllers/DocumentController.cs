@@ -24,9 +24,10 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
         private readonly IUserInfoes userInfoes;
         private readonly IEmployeeService _employeeService;
         private readonly IRepository<DocumentCategory> _repoDocumentCategory;
+        private readonly IRepository<Department> _repoDepartment;
 
         public DocumentController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, IUserInfoes userInfoes,
-             IEmployeeService employeeService, IRepository<DocumentCategory> repoDocumentCategory)
+             IEmployeeService employeeService, IRepository<DocumentCategory> repoDocumentCategory, IRepository<Department> repoDepartment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -34,6 +35,7 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
             this.userInfoes = userInfoes;
             _employeeService = employeeService;
             _repoDocumentCategory = repoDocumentCategory;
+            _repoDepartment = repoDepartment;
         }
 
         public async Task<IActionResult> Index()
@@ -52,7 +54,8 @@ namespace DotNetCore.Areas.DocumentInfo.Controllers
             var empInfo = await _employeeService.GetEmployeeInfoByApplicationId(userInfo.Id);
             var model = new DocumentViewModel
             {
-               documentCategory= _repoDocumentCategory.GetAll()
+               documentCategory= _repoDocumentCategory.GetAll(),
+                departments = _repoDepartment.GetAll()
             };
             return View(model);
         }

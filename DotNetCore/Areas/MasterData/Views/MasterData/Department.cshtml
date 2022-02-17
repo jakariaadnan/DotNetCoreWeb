@@ -7,46 +7,43 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5>Category Information</h5>
+                <h5>Department Information</h5>
             </div>
             <div class="card-body">
                 <div class="general-label">
 
-                    <form role="form" asp-area="MasterData" asp-controller="MasterData" asp-action="DocumentCategory" method="post">
-                        <input class="form-control" type="hidden" id="categoryId" name="categoryId" value="0">
+                    <form role="form" asp-area="MasterData" asp-controller="MasterData" asp-action="Department" method="post">
+                        <input class="form-control" type="hidden" id="departmentId" name="departmentId" value="0">
 
                         <div class="form-group row">
-                            <label for="bankName" class="col-md-2 col-sm-12 col-form-label">Category Name(EN)</label>
+                            <label for="bankName" class="col-md-2 col-sm-12 col-form-label">Department Name(EN)</label>
                             <div class="col-md-10 col-sm-12">
-                                <input class="form-control" type="text" id="CategoryName" name="CategoryName" placeholder="Category Name English" required>
+                                <input class="form-control" type="text" id="nameEn" name="nameEn" placeholder="Department Name English" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="bankNameBn" class="col-md-2 col-sm-12 col-form-label">Category Name(BN)</label>
+                            <label for="bankNameBn" class="col-md-2 col-sm-12 col-form-label">Department Name(BN)</label>
                             <div class="col-md-10 col-sm-12">
-                                <input class="form-control" type="text" id="CategoryNameBn" name="CategoryNameBn" placeholder="Category Name Bangla" required>
+                                <input class="form-control" type="text" id="nameBn" name="nameBn" placeholder="Department Name Bangla" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="shortOrder" class="col-md-2 col-sm-12 col-form-label">Status</label>
+                            <label for="shortOrder" class="col-md-2 col-sm-12 col-form-label">Short Order</label>
                             <div class="col-md-10 col-sm-12">
-                                <select class="form-control" name="categoryStatus" id="categoryStatus" required>
-                                    <option value="1">Active</option>
-                                    <option value="2">In Active</option>
-                                </select>
+                                <input class="form-control" type="number" id="shortOrder" name="shortOrder" placeholder="Short Order" required>
                             </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="shortName" class="col-md-2 col-sm-12 col-form-label"></label>
-                                <div class="col-md-10 col-sm-12">
-                                    <div class="float-right">
-                                        <button type="reset" class="btn btn-danger">Cancel</button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="shortName" class="col-md-2 col-sm-12 col-form-label"></label>
+                            <div class="col-md-10 col-sm-12">
+                                <div class="float-right">
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
+                        </div>
 
-</form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -64,29 +61,25 @@
                     <thead>
                         <tr>
                             <th>Sl NO</th>
-                            <th>Category Name(EN)</th>
-                            <th>Category Name(BN)</th>
-                            <th>Status</th>
+                            <th>Department Name(EN)</th>
+                            <th>Department Name(BN)</th>
+                            <th>Short Order</th>
                             <th class="text-nowrap"></th>
                     </thead>
                     <tbody>
                         @{
                             int sl = 0;
-                            @foreach (var data in Model.documentCategories.OrderBy(x => x.categoryName))
+                            @foreach (var data in Model.department.OrderBy(x => x.shortName))
                             {
                                 sl = sl + 1;
                                 <tr>
                                     <td>@sl</td>
-                                    <td>@data.categoryName</td>
-                                    <td>@data.categoryCode</td>@if (data.status == 1)
-                                    {
-                                        <td>Active</td>}
-                                    else
-                                    {
-                                        <td>In Active</td>}
+                                    <td>@data.deptName</td>
+                                    <td>@data.deptNameBn</td>
+                                    <td>@data.shortName</td>
 
                                     <td class="text-nowrap">
-                                        <button type="button" class="tabledit-edit-button btn btn-sm btn-info" onclick="Edit(@data.Id,'@data.categoryName','@data.categoryCode',@data.status)" style="float: none; margin: 5px;"><span class="ti-pencil"></span></button>
+                                        <button type="button" class="tabledit-edit-button btn btn-sm btn-info" onclick="Edit(@data.Id,'@data.deptName','@data.deptNameBn',@data.shortName)" style="float: none; margin: 5px;"><span class="ti-pencil"></span></button>
                                         <button type="button" class="tabledit-delete-button btn btn-sm btn-danger" onclick="Delete(@data.Id)" style="float: none; margin: 5px;"><span class="ti-trash"></span></button>
                                     </td>
                                 </tr>
@@ -122,7 +115,7 @@
             }).then(function () {
 
                 $.ajax({
-                    url: "/MasterData/MasterData/DeleteCategory/" + Id,
+                    url: "/MasterData/MasterData/DeleteDepartment/" + Id,
                     data: { Id: Id },
                     type: 'POST',
                 })

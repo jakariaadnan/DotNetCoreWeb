@@ -1,4 +1,5 @@
-﻿using DotNetCore.Data.Entity;
+﻿using DotNetCore.Areas.Auth.Models;
+using DotNetCore.Data.Entity;
 using DotNetCore.Data.Entity.EmployeeInfos;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace DotNetCore.Services.AuthService.Interfaces
         Task<ApplicationUser> GetUserInfoByUser(string userName);
         Task<ApplicationUser> GetApplicationUserByUserId(string userId);
         Task<EmployeeInfo> GetEmployeeInfoByUserName(string userName);
-        //Task<AspNetUsersViewModel> GetUserInfoByUserName(string userName);
+        Task<AspNetUsersViewModel> GetUserInfoByUserName(string userName);
         //Task<IEnumerable<AspNetUsersViewModel>> GetUserInfoList();
         //Task<IEnumerable<AlphaModule>> GetAllAlphaModule();
         Task<bool> DeleteUserRoleListByUserId(string Id);
